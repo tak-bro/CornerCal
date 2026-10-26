@@ -98,8 +98,10 @@ class MainMenuController: NSObject, NSCollectionViewDataSource {
 
     }
     
-    func deactivate() {
-        controller.pause()
+    func resyncClock() {
+        controller.setDateFormat()
+        // the day may have changed while asleep
+        updateCalendar()
     }
     
     @IBAction func openSettingsClicked(_ sender: NSMenuItem) {

@@ -161,11 +161,6 @@ class CalendarController: NSObject {
         }
     }
     
-    func pause() {
-        timer?.invalidate()
-        tick = nil
-    }
-    
     func itemCount() -> Int {
         return shownItemCount
     }

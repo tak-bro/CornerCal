@@ -37,6 +37,7 @@ xcodebuild \
   -project CornerCal.xcodeproj \
   -scheme CornerCal \
   -configuration Release \
+  -destination 'generic/platform=macOS' \
   -derivedDataPath "$DERIVED" \
   ARCHS="arm64 x86_64" \
   ONLY_ACTIVE_ARCH=NO \

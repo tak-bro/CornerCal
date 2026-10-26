@@ -26,18 +26,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         appController.refreshState()
+
+        // The status item stays visible for the app's whole lifetime, so the clock
+        // keeps ticking. Re-align it after sleep or a manual clock change, when the
+        // running timer may have drifted from the wall clock.
+        let workspaceCenter = NSWorkspace.shared.notificationCenter
+        workspaceCenter.addObserver(self, selector: #selector(resyncClock), name: NSWorkspace.didWakeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resyncClock), name: .NSSystemClockDidChange, object: nil)
     }
-    
-    func applicationDidChangeOcclusionState(_ notification: Notification) {
-        if (NSApp.occlusionState.contains(.visible)) {
-            // the app now became visible
-            appController.refreshState()
-        } else {
-            // none of the app is visible anymore, so pause everything
-            appController.deactivate()
-        }
+
+    @objc private func resyncClock() {
+        appController.resyncClock()
     }
-    
+
     private func defaultsContains(key: String) -> Bool {
         return UserDefaults.standard.value(forKey: key) != nil
     }
